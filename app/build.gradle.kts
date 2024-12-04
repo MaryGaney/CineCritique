@@ -57,4 +57,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     val fragment_version = "1.8.4"
     implementation("androidx.fragment:fragment-ktx:$fragment_version")
+    implementation("com.google.android.gms:play-services-cronet:18.0.1")
+    implementation("com.google.code.gson:gson:2.11.0")
+    implementation("com.squareup.okhttp3:okhttp:3.8.1")
 }

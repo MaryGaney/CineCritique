@@ -3,8 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserPage">
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/ratingToggleGroup"
+        android:layout_width="100dp"
+        android:layout_height="24dp"
+        app:singleSelection="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ratingButton1"
+            style="@style/RatingButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_star_border_24" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ratingButton2"
+            style="@style/RatingButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_star_border_24" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ratingButton3"
+            style="@style/RatingButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_star_border_24" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ratingButton4"
+            style="@style/RatingButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_star_border_24" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ratingButton5"
+            style="@style/RatingButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_star_border_24" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
