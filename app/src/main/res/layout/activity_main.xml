@@ -15,7 +15,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/kaisei_haruno_umi_bold"
-        android:text="Hello World!"
+        android:text="CineCritique"
         android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"

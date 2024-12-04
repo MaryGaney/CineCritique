@@ -8,6 +8,36 @@
     android:layout_height="match_parent"
     tools:context=".UserPage">
 
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/kaisei_haruno_umi_bold"
+        android:text="CineCritique"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="35dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_person_24" />
+
+    <View
+        android:id="@+id/horzLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/titleText"/>
+
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/ratingToggleGroup"
         android:layout_width="100dp"
