@@ -38,13 +38,62 @@
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@id/titleText"/>
 
+    <ImageView
+        android:id="@+id/userpic"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="131dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horzLine"
+        tools:srcCompat="@drawable/baseline_person_24" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="141dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="142dp"
+        android:layout_marginBottom="4dp"
+        android:text="Username"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/movieratings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userpic" />
+
+    <TextView
+        android:id="@+id/movieratings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="91dp"
+        android:layout_marginBottom="10dp"
+        android:text="My Movie Ratings:"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/ratingToggleGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
+
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/ratingToggleGroup"
         android:layout_width="100dp"
         android:layout_height="24dp"
-        app:singleSelection="false"
-        app:layout_constraintTop_toBottomOf="@id/titleText"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="311dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/movieratings"
+        app:singleSelection="false">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/ratingButton1"
