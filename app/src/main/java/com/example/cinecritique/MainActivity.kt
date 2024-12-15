@@ -5,6 +5,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -37,6 +39,12 @@ import java.util.Date
 
 
 class MainActivity : AppCompatActivity() {
+    private val signInLauncher = registerForActivityResult(
+        FirebaseAuthUIActivityResultContract(),
+    ) { res ->
+        this.onSignInResult(res)
+    }
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MovieAdapter
     private lateinit var layoutManager: LinearLayoutManager
@@ -85,6 +93,20 @@ class MainActivity : AppCompatActivity() {
         /*
 
          */
+    }
+
+    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
+        val response = result.idpResponse
+        if (result.resultCode == RESULT_OK) {
+            //successful sign in
+            val user = FirebaseAuth.getInstance().currentUser
+            user?.let {
+                //do something here
+                Log.i("MYTAG", "signed in")
+            }
+        } else {
+            Log.i("MYTAG", "failed sign in")
+        }
     }
     private fun setupAdapter(recyclerView: RecyclerView, movies: List<Movie>) {
         val adapter = MovieAdapter(movies) { movie ->
