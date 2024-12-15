@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: MovieAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var database: CollectionReference
-    private lateinit var curdate : Date
+    private lateinit var curdate: Date
 
     private lateinit var cronetEngine: CronetEngine
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,12 +72,30 @@ class MainActivity : AppCompatActivity() {
         }
         // Initialize CronetEngine
         cronetEngine = CronetEngine.Builder(this).build()
-        val movieGenre = mutableMapOf<String,String>()
-        movieGenre.putAll(mapOf("Action" to "27", "Adventure" to "12", "Animation" to "16",
-            "Comedy" to "35", "Crime" to "80", "Documentary" to "99", "Drama" to "18", "Family" to "10751",
-            "Fantasy" to "14", "History" to "36", "Horror" to "27", "Music" to "10402", "Mystery" to "9648",
-            "Romance" to "10749", "Science Fiction" to "878", "TV Movie" to "10770", "Thriller" to "53",
-            "War" to "10752", "Western" to "37"))
+        val movieGenre = mutableMapOf<String, String>()
+        movieGenre.putAll(
+            mapOf(
+                "Action" to "27",
+                "Adventure" to "12",
+                "Animation" to "16",
+                "Comedy" to "35",
+                "Crime" to "80",
+                "Documentary" to "99",
+                "Drama" to "18",
+                "Family" to "10751",
+                "Fantasy" to "14",
+                "History" to "36",
+                "Horror" to "27",
+                "Music" to "10402",
+                "Mystery" to "9648",
+                "Romance" to "10749",
+                "Science Fiction" to "878",
+                "TV Movie" to "10770",
+                "Thriller" to "53",
+                "War" to "10752",
+                "Western" to "37"
+            )
+        )
 
 
         // Firestore initialization
@@ -102,7 +120,9 @@ class MainActivity : AppCompatActivity() {
 //            AuthUI.IdpConfig.TwitterBuilder().build()
         )
 
-        val signInIntent = AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers).build()
+        val signInIntent =
+            AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers)
+                .build()
         signInLauncher.launch(signInIntent)
 
         //profile pic image takes you to user page
@@ -129,15 +149,16 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 // Update RecyclerView with movies
-                adapter = MovieAdapter(actionMovies){ position ->
-                    val intent = Intent(this, IndMovie::class.java).apply{
+                adapter = MovieAdapter(actionMovies) { position ->
+                    val intent = Intent(this, IndMovie::class.java).apply {
                         putExtra("MOVIE_NAME", actionMovies.get(position).title)
                         putExtra("MOVIE_POSTER", actionMovies.get(position).poster_path)
                         putExtra("MOVIE_DESC", actionMovies.get(position).overview)
                     }
                     startActivity(intent)
                 }
-                recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+                recyclerView.layoutManager =
+                    LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
                 recyclerView.adapter = adapter
             } else {
                 Toast.makeText(this, "No movies found for Action genre.", Toast.LENGTH_SHORT).show()
@@ -145,7 +166,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val myList : RecyclerView  = findViewById(R.id.actionRecycle);
+        val myList: RecyclerView = findViewById(R.id.actionRecycle);
         myList.setLayoutManager(layoutManager);
 //
 //        val imageUrl = "https://image.tmdb.org/t/p/w500${movie.poster_path}"
@@ -160,17 +181,17 @@ class MainActivity : AppCompatActivity() {
          */
     }
 
-    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult){
+    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
-        if(result.resultCode == RESULT_OK){
+        if (result.resultCode == RESULT_OK) {
             //successful sign in
             val user = FirebaseAuth.getInstance().currentUser
-            user?.let{
+            user?.let {
                 //do something here
-                Log.i("MYTAG","signed in")
+                Log.i("MYTAG", "signed in")
             }
-        } else{
-            Log.i("MYTAG","failed sign in")
+        } else {
+            Log.i("MYTAG", "failed sign in")
         }
     }
 
@@ -185,38 +206,46 @@ class MainActivity : AppCompatActivity() {
             setStarStates(mutableListOf(mButton1, mButton2, mButton3, mButton4, mButton5), 5)
         }
 
-    private fun fetchMovies(genreName : String, genreNumber : String, callback: (List<Movie>) -> Unit){
-        val executor = Executors.newSingleThreadExecutor()
-        val webHelper = WebHelper(cronetEngine, executor)
+        private fun fetchMovies(
+            genreName: String,
+            genreNumber: String,
+            callback: (List<Movie>) -> Unit
+        ) {
+            val executor = Executors.newSingleThreadExecutor()
+            val webHelper = WebHelper(cronetEngine, executor)
 
-        val url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=27"
-        val headers = mapOf(
-            "accept" to "application/json",
-            "Authorization" to "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3Y2U4YzlmMDFlNDNhZDU5NTUzZmNjYmFlZmY4MGJmYyIsIm5iZiI6MTczMzE4MTk4OS4zNzYsInN1YiI6IjY3NGU0MjI1YWE4NDRkYzZlZTk0NDZlZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CIjbdscpuNHNNHGzT2-eM7JR21RmUgJ_A-V2AgrKdwk"
-        )
-        webHelper.get(url, headers) { jsonResponse ->
-            if (jsonResponse != null) {
-                try {
-                    val gson = Gson()
-                    val jsonObject = gson.fromJson(jsonResponse, JsonObject::class.java)
-                    val results = jsonObject.getAsJsonArray("results")
+            val url =
+                "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=27"
+            val headers = mapOf(
+                "accept" to "application/json",
+                "Authorization" to "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3Y2U4YzlmMDFlNDNhZDU5NTUzZmNjYmFlZmY4MGJmYyIsIm5iZiI6MTczMzE4MTk4OS4zNzYsInN1YiI6IjY3NGU0MjI1YWE4NDRkYzZlZTk0NDZlZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CIjbdscpuNHNNHGzT2-eM7JR21RmUgJ_A-V2AgrKdwk"
+            )
+            webHelper.get(url, headers) { jsonResponse ->
+                if (jsonResponse != null) {
+                    try {
+                        val gson = Gson()
+                        val jsonObject = gson.fromJson(jsonResponse, JsonObject::class.java)
+                        val results = jsonObject.getAsJsonArray("results")
 
-                    val movieType = object : TypeToken<List<Movie>>() {}.type
-                    val movies: List<Movie> = gson.fromJson(results, movieType)
+                        val movieType = object : TypeToken<List<Movie>>() {}.type
+                        val movies: List<Movie> = gson.fromJson(results, movieType)
 
-                    // Process movies (e.g., display or store)
-                    movies.forEach { movie ->
-                        Log.i("MOVIE", "Title: ${movie.title}, Overview: ${movie.overview}, Poster: ${movie.poster_path}")
-                    }
-                    //method is async so have to use callback here
+                        // Process movies (e.g., display or store)
+                        movies.forEach { movie ->
+                            Log.i(
+                                "MOVIE",
+                                "Title: ${movie.title}, Overview: ${movie.overview}, Poster: ${movie.poster_path}"
+                            )
+                        }
+                        //method is async so have to use callback here
                         //returns empty list before callback is complete so tell want movies returned
-                    callback(movies);
-                } catch (e: Exception) {
-                    Log.e("JSON_ERROR", "Failed to parse JSON: ${e.message}")
+                        callback(movies);
+                    } catch (e: Exception) {
+                        Log.e("JSON_ERROR", "Failed to parse JSON: ${e.message}")
+                    }
+                } else {
+                    Log.e("HTTP_ERROR", "Failed to fetch data.")
                 }
-            } else {
-                Log.e("HTTP_ERROR", "Failed to fetch data.")
             }
         }
     }
-}
