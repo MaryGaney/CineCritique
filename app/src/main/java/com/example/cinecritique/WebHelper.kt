@@ -9,12 +9,12 @@ import java.nio.ByteBuffer
 import java.nio.charset.Charset
 import java.util.concurrent.Executor
 
-class WebHelper(private val cronetEngine: CronetEngine, private val ex: Executor){
+class WebHelper(private val cronetEngine: CronetEngine, private val ex: Executor) {
 
-    fun get(url:String, callback: (String?) -> Unit){
-        val requestBuilder = cronetEngine.newUrlRequestBuilder(url,
+    fun get(url: String, headers: Map<String, String>, callback: (String?) -> Unit) {
+        val requestBuilder = cronetEngine.newUrlRequestBuilder(
+            url,
             object : UrlRequest.Callback() {
-                // the implementation of the UrlRequest class, all of the callback methods
                 override fun onRedirectReceived(
                     request: UrlRequest?,
                     info: UrlResponseInfo?,
@@ -32,24 +32,13 @@ class WebHelper(private val cronetEngine: CronetEngine, private val ex: Executor
                     info: UrlResponseInfo?,
                     byteBuffer: ByteBuffer?
                 ) {
-                    byteBuffer?.clear()
-                    request?.read(byteBuffer)
-                    val response = byteBuffer?.let{byteBufferToString(it)}
-                    //callback actually sends it back
-                    callback(response);
-                }
-
-                fun byteBufferToString(buffer: ByteBuffer, charset: Charset = Charsets.UTF_8): String? {
-                    val byteArray = buffer?.let { ByteArray(it.remaining()) }
-                    if (buffer != null) {
-                        buffer.get(byteArray)
-                    }
-                    var response = byteArray?.toString(Charsets.UTF_8)
-                    return response;
+                    byteBuffer?.flip() // Prepare the buffer for reading
+                    val response = byteBuffer?.let { byteBufferToString(it) }
+                    callback(response)
                 }
 
                 override fun onSucceeded(request: UrlRequest?, info: UrlResponseInfo?) {
-                    Log.i("MYTAG","Connection succeeded")
+                    Log.i("MYTAG", "Connection succeeded")
                 }
 
                 override fun onFailed(
@@ -57,10 +46,24 @@ class WebHelper(private val cronetEngine: CronetEngine, private val ex: Executor
                     info: UrlResponseInfo?,
                     error: CronetException?
                 ) {
-                    Log.i("MYTAG","Connection failed")
+                    Log.e("MYTAG", "Connection failed: ${error?.message}")
                 }
-            }, ex )
-        //kicks off the connection
+
+                fun byteBufferToString(buffer: ByteBuffer, charset: Charset = Charsets.UTF_8): String {
+                    val byteArray = ByteArray(buffer.remaining())
+                    buffer.get(byteArray)
+                    return String(byteArray, charset)
+                }
+            },
+            ex
+        )
+
+        // Add headers to the request
+        headers.forEach { (key, value) ->
+            requestBuilder.addHeader(key, value)
+        }
+
+        // Kick off the connection
         requestBuilder.build().start()
     }
 }
