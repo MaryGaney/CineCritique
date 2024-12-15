@@ -32,6 +32,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import java.time.LocalDate
 import java.util.Date
 
 
@@ -40,7 +41,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: MovieAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var database: CollectionReference
-    private lateinit var curdate : Date
 
     private lateinit var cronetEngine: CronetEngine
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,63 +52,28 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // Initialize CronetEngine
         cronetEngine = CronetEngine.Builder(this).build()
+        val curDate = LocalDate.now().toString()
+
+        val db = FirebaseFirestore.getInstance()
+        database = db.collection("dates")
+
         val movieGenre = mutableMapOf<String,String>()
-        movieGenre.putAll(mapOf("Action" to "27", "Adventure" to "12", "Animation" to "16",
+        movieGenre.putAll(mapOf("Popular" to "0","Action" to "27", "Adventure" to "12", "Animation" to "16",
             "Comedy" to "35", "Crime" to "80", "Documentary" to "99", "Drama" to "18", "Family" to "10751",
             "Fantasy" to "14", "History" to "36", "Horror" to "27", "Music" to "10402", "Mystery" to "9648",
             "Romance" to "10749", "Science Fiction" to "878", "TV Movie" to "10770", "Thriller" to "53",
             "War" to "10752", "Western" to "37"))
 
-
-        // Firestore initialization
-        val db = FirebaseFirestore.getInstance()
-        val dateKey = curdate.toString() // Format if needed (e.g., SimpleDateFormat)
-        database = db.collection("dates")
-
-        // Check if the document for the current date exists
-        database.document(dateKey).get().addOnSuccessListener { document ->
+        database.document(curDate).get().addOnSuccessListener { document ->
             if (!document.exists()) {
-                // Create a new document with today's date
-                db.collection("dates").document(dateKey).set(emptyMap<String, Any>())
+                database.document(curDate).set(emptyMap<String, Any>()) // Add the date document
             }
+            // Fetch movie genres and set up the RecyclerViews
+            setupGenreRecyclerViews(curDate)
+        }.addOnFailureListener { e ->
+            Log.e("FIREBASE_ERROR", "Failed to fetch date document: ${e.message}")
         }
-
-        fetchMovies("Action", movieGenre["Action"].toString()) { actionMovies ->
-            if (actionMovies.isNotEmpty()) {
-                // Add to Firestore under the current date
-                val dateKey = curdate.toString() // Format this if needed
-                val actionGenreData = hashMapOf("Action" to actionMovies)
-
-                database.document(dateKey)
-                    .set(actionGenreData, SetOptions.merge())
-                    .addOnSuccessListener {
-                        Log.i("DATABASE", "Movies added successfully!")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("DATABASE_ERROR", "Failed to add movies: ${e.message}")
-                    }
-
-                // Update RecyclerView with movies
-                adapter = MovieAdapter(actionMovies){ position ->
-                    val intent = Intent(this, IndMovie::class.java).apply{
-                        putExtra("MOVIE_NAME", actionMovies.get(position).title)
-                        putExtra("MOVIE_POSTER", actionMovies.get(position).poster_path)
-                        putExtra("MOVIE_DESC", actionMovies.get(position).overview)
-                    }
-                    startActivity(intent)
-                }
-                recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-                recyclerView.adapter = adapter
-            } else {
-                Toast.makeText(this, "No movies found for Action genre.", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-
-        val myList : RecyclerView  = findViewById(R.id.actionRecycle);
-        myList.setLayoutManager(layoutManager);
 //
 //        val imageUrl = "https://image.tmdb.org/t/p/w500${movie.poster_path}"
 //        Glide.with(this)
@@ -121,16 +86,99 @@ class MainActivity : AppCompatActivity() {
 
          */
     }
+    private fun setupAdapter(recyclerView: RecyclerView, movies: List<Movie>) {
+        val adapter = MovieAdapter(movies) { movie ->
+            val intent = Intent(this, IndMovie::class.java).apply {
+                putExtra("MOVIE_NAME", movie.title)
+                putExtra("MOVIE_POSTER", movie.poster_path)
+                putExtra("MOVIE_DESC", movie.overview)
+            }
+            startActivity(intent)
+        }
+        recyclerView.adapter = adapter
+    }
 
-    private fun fetchMovies(genreName : String, genreNumber : String, callback: (List<Movie>) -> Unit){
+    private fun setupGenreRecyclerViews(dateKey: String) {
+        val movieGenres = mapOf(
+            "Popular" to "0",
+            "Action" to "27",
+            "Comedy" to "35",
+            "New" to "0"
+        )
+
+        movieGenres.forEach { (genreName, genreId) ->
+            val recyclerViewId = when (genreName) {
+                "Popular" -> R.id.popularRecycle
+                "Action" -> R.id.actionRecycle
+                "Comedy" -> R.id.comedyRecycle
+                "New" -> R.id.newReleaseRecycle
+                else -> null
+            }
+
+            recyclerViewId?.let { id ->
+                val recyclerView: RecyclerView = findViewById(id)
+                recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+                recyclerView.adapter = MovieAdapter(emptyList()) { } // Set an empty adapter initially
+
+                Log.i("MYTAG",database.document(dateKey).get().toString() + "beforeOnSuccess");
+                database.document(dateKey).get().addOnSuccessListener{ document ->
+                    val moviesForGenre = document.get(genreName) as? List<Map<String, Any>>
+                    Log.i("MYTAG",document.get(genreName).toString());
+                    if (moviesForGenre != null) {
+                        val movies = moviesForGenre.map { map ->
+                            Movie(
+                                title = map["title"] as String,
+                                overview = map["overview"] as String,
+                                poster_path = map["poster_path"] as String
+                            )
+                        }
+                        (recyclerView.adapter as MovieAdapter).updateMovies(movies)
+                    } else {
+                        fetchMovies(genreName, genreId) { movies ->
+                            val movieData = mapOf(
+                                genreName to movies.map { movie ->
+                                    mapOf(
+                                        "title" to movie.title,
+                                        "overview" to movie.overview,
+                                        "poster_path" to movie.poster_path
+                                    )
+                                }
+                            )
+
+                            database.document(dateKey)
+                                .set(movieData, SetOptions.merge())
+                                .addOnSuccessListener {
+                                    Log.i("FIREBASE", "$genreName movies added successfully!")
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.e("FIREBASE_ERROR", "Failed to add $genreName movies: ${e.message}")
+                                }
+
+                            (recyclerView.adapter as MovieAdapter).updateMovies(movies)
+                        }
+                    }
+                }.addOnFailureListener { e ->
+                    Log.e("FIREBASE_ERROR", "Failed to fetch genre data: ${e.message}")
+                }
+            }
+        }
+    }
+
+    private fun fetchMovies(genreName: String, genreNumber: String, callback: (List<Movie>) -> Unit) {
         val executor = Executors.newSingleThreadExecutor()
         val webHelper = WebHelper(cronetEngine, executor)
 
-        val url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=27"
+        val url = when (genreName) {
+            "Popular" -> "https://api.themoviedb.org/3/trending/movie/day?language=en-US"
+            "New" -> "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_release_type=1"
+            else -> "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=$genreNumber"
+        }
+
         val headers = mapOf(
             "accept" to "application/json",
             "Authorization" to "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3Y2U4YzlmMDFlNDNhZDU5NTUzZmNjYmFlZmY4MGJmYyIsIm5iZiI6MTczMzE4MTk4OS4zNzYsInN1YiI6IjY3NGU0MjI1YWE4NDRkYzZlZTk0NDZlZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CIjbdscpuNHNNHGzT2-eM7JR21RmUgJ_A-V2AgrKdwk"
         )
+
         webHelper.get(url, headers) { jsonResponse ->
             if (jsonResponse != null) {
                 try {
@@ -141,13 +189,7 @@ class MainActivity : AppCompatActivity() {
                     val movieType = object : TypeToken<List<Movie>>() {}.type
                     val movies: List<Movie> = gson.fromJson(results, movieType)
 
-                    // Process movies (e.g., display or store)
-                    movies.forEach { movie ->
-                        Log.i("MOVIE", "Title: ${movie.title}, Overview: ${movie.overview}, Poster: ${movie.poster_path}")
-                    }
-                    //method is async so have to use callback here
-                        //returns empty list before callback is complete so tell want movies returned
-                    callback(movies);
+                    callback(movies) // Return fetched movies via callback
                 } catch (e: Exception) {
                     Log.e("JSON_ERROR", "Failed to parse JSON: ${e.message}")
                 }
