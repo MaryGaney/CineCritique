@@ -3,7 +3,6 @@ package com.example.cinecritique
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -22,11 +21,11 @@ class IndMovie : AppCompatActivity() {
         }
 
         //profile pic image takes you to user page
-        val pfp: ImageView = findViewById(R.id.pfp)
+        val pfp: ImageView = findViewById(R.id.userpic)
         //val pf: ImageView = findViewById(R.id.imageView)
         pfp.setOnClickListener {
             val intent = Intent(this, UserPage::class.java)
-            startActivityForResult(intent, ADD_TASK_REQUEST_CODE)
+            startActivity(intent)
         }
 
         // Retrieve data passed via Intent

@@ -108,6 +108,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("MYTAG", "failed sign in")
         }
     }
+
     private fun setupAdapter(recyclerView: RecyclerView, movies: List<Movie>) {
         val adapter = MovieAdapter(movies) { movie ->
             val intent = Intent(this, IndMovie::class.java).apply {
@@ -154,7 +155,9 @@ class MainActivity : AppCompatActivity() {
                                 poster_path = map["poster_path"] as String
                             )
                         }
+
                         (recyclerView.adapter as MovieAdapter).updateMovies(movies)
+                        setupAdapter(recyclerView, movies)
                     } else {
                         fetchMovies(genreName, genreId) { movies ->
                             val movieData = mapOf(
@@ -177,6 +180,7 @@ class MainActivity : AppCompatActivity() {
                                 }
 
                             (recyclerView.adapter as MovieAdapter).updateMovies(movies)
+                            setupAdapter(recyclerView, movies)
                         }
                     }
                 }.addOnFailureListener { e ->
