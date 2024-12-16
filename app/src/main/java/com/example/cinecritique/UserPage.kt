@@ -2,15 +2,28 @@ package com.example.cinecritique
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.auth.FirebaseAuth
 
 class UserPage : AppCompatActivity() {
+
+    private val signInLauncher = registerForActivityResult(
+        FirebaseAuthUIActivityResultContract(),
+    ) { res ->
+        this.onSignInResult(res)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,6 +39,27 @@ class UserPage : AppCompatActivity() {
         mainpagebtn.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+        }
+
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+//            AuthUI.IdpConfig.PhoneBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build()
+//            AuthUI.IdpConfig.FacebookBuilder().build(),
+//            AuthUI.IdpConfig.TwitterBuilder().build()
+        )
+
+        val signInIntent = AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers).build()
+        //signInLauncher.launch(signInIntent)
+
+        val logoutButton: Button = findViewById(R.id.logoutButton)
+        logoutButton.setOnClickListener {
+            AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener {
+                    Log.i("MYTAG","user logged out")
+                }
+            signInLauncher.launch(signInIntent)
         }
 
         val button1 = findViewById<MaterialButton>(R.id.ratingButton1)
@@ -76,5 +110,19 @@ class UserPage : AppCompatActivity() {
         }
 
         Toast.makeText(this, "Rating: $rating", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
+        val response = result.idpResponse
+        if (result.resultCode == RESULT_OK) {
+            //successful sign in
+            val user = FirebaseAuth.getInstance().currentUser
+            user?.let {
+                //do something here
+                Log.i("MYTAG", "signed in")
+            }
+        } else {
+            Log.i("MYTAG", "failed sign in")
+        }
     }
 }

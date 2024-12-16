@@ -152,4 +152,19 @@
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="377dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginBottom="5dp"
+        android:text="Logout"
+        android:backgroundTint="@color/purple"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movieratings" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
