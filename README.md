@@ -50,7 +50,7 @@ CineCritique is an intuitive and engaging app designed for movie enthusiasts. Us
 - **Navigation:**
   - **To Main Page:** Click on the logo button.
 
-### Screenshots
+## Screenshots
 **Main Screen**
 
 **Genre Screen**
@@ -59,7 +59,7 @@ CineCritique is an intuitive and engaging app designed for movie enthusiasts. Us
 
 **User Screen**
 
-### Contribution
+## Contribution
 **Contributors:**
 1. Mary Ganey
 2. Shivani Iyanar
