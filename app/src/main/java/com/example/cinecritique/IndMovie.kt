@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import com.bumptech.glide.Glide
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,6 +25,7 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.firestore.FieldValue
 
 class IndMovie : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ind_movie)
@@ -34,10 +36,17 @@ class IndMovie : AppCompatActivity() {
         }
 
         //profile pic image takes you to user page
-        val pfp: ImageView = findViewById(R.id.userpic)
+        val pfp: ImageView = findViewById(R.id.pfp)
         //val pf: ImageView = findViewById(R.id.imageView)
         pfp.setOnClickListener {
             val intent = Intent(this, UserPage::class.java)
+            startActivity(intent)
+        }
+
+        //logo takes you to main page
+        val mainpagebtn: ImageView = findViewById(R.id.mainpagebtn)
+        mainpagebtn.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 

@@ -32,5 +32,7 @@ class MovieGenre : AppCompatActivity() {
             val intent = Intent(this, UserPage::class.java)
             startActivityForResult(intent, ADD_TASK_REQUEST_CODE)
         }
+
+
     }
 }

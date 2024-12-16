@@ -34,6 +34,13 @@ class GenrePick : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //logo takes you to main page
+        val mainpagebtn: ImageView = findViewById(R.id.mainpagebtn)
+        mainpagebtn.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         val popularButton : Button = findViewById(R.id.popularButton)
         popularButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
