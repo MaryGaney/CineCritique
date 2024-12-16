@@ -45,6 +45,11 @@ class MainActivity : AppCompatActivity() {
         this.onSignInResult(res)
     }
 
+    companion object {
+        var userId: String? = null
+        private const val ADD_TASK_REQUEST_CODE = 1
+    }
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MovieAdapter
     private lateinit var layoutManager: LinearLayoutManager
@@ -60,6 +65,29 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        //sign in stuff
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+//            AuthUI.IdpConfig.PhoneBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build()
+//            AuthUI.IdpConfig.FacebookBuilder().build(),
+//            AuthUI.IdpConfig.TwitterBuilder().build()
+        )
+
+        val signInIntent =
+            AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers)
+                .build()
+        signInLauncher.launch(signInIntent)
+
+        //profile pic image takes you to user page
+        val pfp: ImageView = findViewById(R.id.pfp)
+        //val pf: ImageView = findViewById(R.id.imageView)
+        pfp.setOnClickListener {
+            val intent = Intent(this, UserPage::class.java)
+            startActivityForResult(intent, ADD_TASK_REQUEST_CODE)
+        }
+
         cronetEngine = CronetEngine.Builder(this).build()
         val curDate = LocalDate.now().toString()
 

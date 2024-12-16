@@ -21,7 +21,7 @@ class IndMovie : AppCompatActivity() {
         }
 
         //profile pic image takes you to user page
-        val pfp: ImageView = findViewById(R.id.userpic)
+        val pfp: ImageView = findViewById(R.id.pfp)
         //val pf: ImageView = findViewById(R.id.imageView)
         pfp.setOnClickListener {
             val intent = Intent(this, UserPage::class.java)
