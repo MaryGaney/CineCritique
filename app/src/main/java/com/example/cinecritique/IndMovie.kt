@@ -6,11 +6,22 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.CollectionReference
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.firebase.firestore.FieldValue
 
 class IndMovie : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +62,65 @@ class IndMovie : AppCompatActivity() {
 
         // Initialize the rating bar functionality
         showRatingBar(button1, button2, button3, button4, button5)
+    }
 
+    private fun rateMovie(movie: Movie, rating: Int) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser?.let { user ->
+            val db = FirebaseFirestore.getInstance()
+            val userDocRef = db.collection("users").document(user.uid)
+
+            userDocRef.get().addOnSuccessListener { document ->
+                if (document.exists()) {
+                    // Remove from the previous rating list, if exists
+                    val allRatings = document.get("AllRatings") as? Map<String, Map<String, Any>>
+                    val movieKey = movie.title // or use a unique identifier like movie.id
+
+                    allRatings?.get(movieKey)?.let { existingMovie ->
+                        val prevRating = (existingMovie["rating"] as? Long)?.toInt() ?: 0
+                        userDocRef.update("$prevRating", FieldValue.arrayRemove(existingMovie))
+                    }
+
+                    // Add to the new rating list
+                    val movieData = mapOf(
+                        "title" to movie.title,
+                        "poster_path" to movie.poster_path,
+                        "overview" to movie.overview,
+                        "rating" to rating
+                    )
+
+                    userDocRef.update("$rating", FieldValue.arrayUnion(movieData))
+                    userDocRef.update("AllRatings.$movieKey", movieData)
+                        .addOnSuccessListener { Log.i("FIREBASE", "Movie rated successfully") }
+                        .addOnFailureListener { e -> Log.e("FIREBASE_ERROR", "Failed to rate movie: ${e.message}") }
+                }
+            }
+        }
+    }
+
+
+    @OptIn(UnstableApi::class)
+    private fun removeRating(movie: Movie) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser?.let { user ->
+            val db = FirebaseFirestore.getInstance()
+            val userDocRef = db.collection("users").document(user.uid)
+
+            userDocRef.get().addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val allRatings = document.get("AllRatings") as? Map<String, Map<String, Any>>
+                    val movieKey = movie.title // or use a unique identifier like movie.id
+
+                    allRatings?.get(movieKey)?.let { movieData ->
+                        val rating = (movieData["rating"] as? Long)?.toInt() ?: 0
+                        userDocRef.update("$rating", FieldValue.arrayRemove(movieData))
+                        userDocRef.update("AllRatings.$movieKey", FieldValue.delete())
+                            .addOnSuccessListener { Log.i("FIREBASE", "Movie removed successfully") }
+                            .addOnFailureListener { e -> Log.e("FIREBASE_ERROR", "Failed to remove movie: ${e.message}") }
+                    }
+                }
+            }
+        }
     }
 
     private fun showRatingBar(
@@ -61,24 +130,25 @@ class IndMovie : AppCompatActivity() {
         mButton4: MaterialButton,
         mButton5: MaterialButton
     ) {
-        mButton5.setOnClickListener {
-            setStarStates(mutableListOf(mButton1, mButton2, mButton3, mButton4, mButton5), 5)
-        }
+        val buttons = mutableListOf(mButton1, mButton2, mButton3, mButton4, mButton5)
 
-        mButton4.setOnClickListener {
-            setStarStates(mutableListOf(mButton1, mButton2, mButton3, mButton4, mButton5), 4)
-        }
+        buttons.forEachIndexed { index, button ->
+            button.setOnClickListener {
+                val selectedRating = index + 1 // Convert index to rating (1-based)
+                setStarStates(buttons, selectedRating)
 
-        mButton3.setOnClickListener {
-            setStarStates(mutableListOf(mButton1, mButton2, mButton3, mButton4, mButton5), 3)
-        }
-
-        mButton2.setOnClickListener {
-            setStarStates(mutableListOf(mButton1, mButton2, mButton3, mButton4, mButton5), 2)
-        }
-
-        mButton1.setOnClickListener {
-            setStarStates(mutableListOf(mButton1, mButton2, mButton3, mButton4, mButton5), 1)
+                // Call rateMovie to update Firebase
+                val movie = Movie(
+                    title = intent.getStringExtra("MOVIE_NAME") ?: "",
+                    poster_path = intent.getStringExtra("MOVIE_POSTER") ?: "",
+                    overview = intent.getStringExtra("MOVIE_DESC") ?: ""
+                )
+                if (movie.title.isNotEmpty()) {
+                    rateMovie(movie, selectedRating)
+                } else {
+                    Toast.makeText(this, "Movie information is missing!", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -90,7 +160,7 @@ class IndMovie : AppCompatActivity() {
                 button.setIconResource(R.drawable.baseline_star_border_24) // Empty star
             }
         }
-
         Toast.makeText(this, "Rating: $rating", Toast.LENGTH_SHORT).show()
     }
+
 }

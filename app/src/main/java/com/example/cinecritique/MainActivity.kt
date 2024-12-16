@@ -82,8 +82,33 @@ class MainActivity : AppCompatActivity() {
         }.addOnFailureListener { e ->
             Log.e("FIREBASE_ERROR", "Failed to fetch date document: ${e.message}")
         }
-
     }
+
+    private fun initializeUser() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser?.let { user ->
+            val db = FirebaseFirestore.getInstance()
+            val userDocRef = db.collection("users").document(user.uid)
+
+            userDocRef.get().addOnSuccessListener { document ->
+                if (!document.exists()) {
+                    // Initialize user's rating lists
+                    val initialData = mapOf(
+                        "1Star" to listOf<Movie>(),
+                        "2Star" to listOf<Movie>(),
+                        "3Star" to listOf<Movie>(),
+                        "4Star" to listOf<Movie>(),
+                        "5Star" to listOf<Movie>(),
+                        "AllRatings" to mapOf<String, Movie>()
+                    )
+                    userDocRef.set(initialData)
+                        .addOnSuccessListener { Log.d("FIREBASE", "User initialized successfully") }
+                        .addOnFailureListener { e -> Log.e("FIREBASE_ERROR", "Failed to initialize user: ${e.message}") }
+                }
+            }
+        }
+    }
+
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
@@ -91,7 +116,7 @@ class MainActivity : AppCompatActivity() {
             //successful sign in
             val user = FirebaseAuth.getInstance().currentUser
             user?.let {
-                //do something here
+                initializeUser()
                 Log.i("MYTAG", "signed in")
             }
         } else {
