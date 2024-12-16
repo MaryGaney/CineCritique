@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,11 +13,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserInfo
 import com.google.firebase.firestore.FirebaseFirestore
 
 class UserPage : AppCompatActivity() {
@@ -50,14 +53,15 @@ class UserPage : AppCompatActivity() {
 
         )
 
+
+
         val signInIntent = AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers).build()
 
         val logoutButton: Button = findViewById(R.id.logoutButton)
         logoutButton.setOnClickListener {
-            AuthUI.getInstance()
-                .signOut(this)
+            AuthUI.getInstance().signOut(this)
                 .addOnCompleteListener {
-                    Log.i("MYTAG","user logged out")
+                    Log.i("MYTAG", "user logged out")
                 }
             signInLauncher.launch(signInIntent)
         }
@@ -80,6 +84,37 @@ class UserPage : AppCompatActivity() {
         currentUser?.let { user ->
             val db = FirebaseFirestore.getInstance()
             val userDocRef = db.collection("users").document(user.uid)
+
+            // Set the profile picture (either from FirebaseAuth or a default one)
+            val userpic: ImageView = findViewById(R.id.userpic)
+            user.photoUrl?.let { photoUrl ->
+                // If the user has a photo URL, load it into the ImageView
+                Glide.with(this)
+                    .load(photoUrl)
+                    .circleCrop() // Optional: to make the image circular
+                    .into(userpic)
+            } ?: run {
+                // If the user does not have a profile picture, use a default image
+                userpic.setImageResource(R.drawable.baseline_person_24)
+            }
+
+            // Set the username (either from FirebaseAuth or Firestore)
+            val usernameTextView: TextView = findViewById(R.id.username)
+            user.displayName?.let { displayName ->
+                // If the user has a display name, use it
+                usernameTextView.text = displayName
+            } ?: run {
+                // If the user does not have a display name, fetch from Firestore
+                userDocRef.get().addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val username = document.getString("username") ?: "Username"
+                        usernameTextView.text = username
+                    } else {
+                        // If the document does not exist or the username is not found, fallback to default
+                        usernameTextView.text = "Username"
+                    }
+                }
+            }
 
             userDocRef.get().addOnSuccessListener { document ->
                 if (document.exists()) {

@@ -52,6 +52,17 @@
             android:paddingBottom="10dp">
 
             <ImageView
+                android:id="@+id/mainpagebtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="40dp"
+                app:layout_constraintEnd_toStartOf="@id/userpic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_arrow_back_24" />
+
+            <ImageView
                 android:id="@+id/userpic"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
@@ -63,7 +74,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/baseline_person_24"
                 app:srcCompat="@drawable/baseline_person_24"/>
 
             <TextView
@@ -227,17 +237,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
-        android:id="@+id/mainpagebtn"
-        android:layout_width="35dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="9dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/horzLine"
-        app:layout_constraintEnd_toStartOf="@+id/pfp"
-        app:layout_constraintStart_toEndOf="@+id/logoutButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/screenshot_2024_12_15_151028" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
