@@ -1,6 +1,8 @@
 package com.example.cinecritique
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,14 @@ class UserPage : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        //logo takes you to main page
+        val mainpagebtn: ImageView = findViewById(R.id.mainpagebtn)
+        mainpagebtn.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         val button1 = findViewById<MaterialButton>(R.id.ratingButton1)
         val button2 = findViewById<MaterialButton>(R.id.ratingButton2)
         val button3 = findViewById<MaterialButton>(R.id.ratingButton3)

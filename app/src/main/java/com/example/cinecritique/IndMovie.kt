@@ -30,6 +30,13 @@ class IndMovie : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //logo takes you to main page
+        val mainpagebtn: ImageView = findViewById(R.id.mainpagebtn)
+        mainpagebtn.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         // Retrieve data passed via Intent
         val movieTitle = intent.getStringExtra("MOVIE_NAME")
         val movieDescription = intent.getStringExtra("MOVIE_DESC")

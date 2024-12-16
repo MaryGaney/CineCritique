@@ -50,7 +50,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horzLine"
-        tools:srcCompat="@drawable/baseline_person_24" />
+        tools:srcCompat="@drawable/baseline_person_24"
+        app:srcCompat="@drawable/baseline_person_24"/>
 
     <TextView
         android:id="@+id/username"
@@ -67,6 +68,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userpic" />
+
+    <ImageView
+        android:id="@+id/mainpagebtn"
+        android:layout_width="35dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/horzLine"
+        app:layout_constraintEnd_toStartOf="@+id/pfp"
+        app:layout_constraintStart_toEndOf="@+id/titleText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/screenshot_2024_12_15_151028" />
 
     <TextView
         android:id="@+id/movieratings"
