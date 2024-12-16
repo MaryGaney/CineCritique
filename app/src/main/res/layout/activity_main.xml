@@ -142,7 +142,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toBottomOf="@id/comedyRecycle"
-                android:text="more"></Button>
+                android:text="more"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
