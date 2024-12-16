@@ -110,17 +110,7 @@ class MainActivity : AppCompatActivity() {
         }.addOnFailureListener { e ->
             Log.e("FIREBASE_ERROR", "Failed to fetch date document: ${e.message}")
         }
-//
-//        val imageUrl = "https://image.tmdb.org/t/p/w500${movie.poster_path}"
-//        Glide.with(this)
-//            .load(imageUrl)
-//            .into(imageView)
 
-//        val txt1 : TextView = findViewById(R.id.testText)
-//        txt1.setText(response.body().toString())
-        /*
-
-         */
     }
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {

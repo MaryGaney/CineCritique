@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">CineCritique</string>
+    <string name="Popular">&#128293;    Popular</string>
+    <string name="Action">&#129464;     Action</string>
+    <string name="Adventure">&#129517;      Adventure</string>
+    <string name="Animation">&#127912;      Animation</string>
+    <string name="Comedy">&#129315;     Comedy</string>
+    <string name="Crime">&#128110;      Crime</string>
+    <string name="Documentary">&#128253;        Documentary</string>
+    <string name="Drama">&#127917;      Drama</string>
+    <string name="Family">&#128106;     Family</string>
+    <string name="Fantasy">&#129497;        Fantasy</string>
+    <string name="History">&#128240;        History</string>
+    <string name="Horror">&#128121;     Horror</string>
+    <string name="Music">&#127925;      Music</string>
+    <string name="Mystery">&#128270;        Mystery</string>
+    <string name="Romance">&#128147;        Romance</string>
+    <string name="Science">&#129516;        Science</string>
+    <string name="TV">&#128250;    \nTV</string>
+    <string name="Thriller">&#129296;       Thriller</string>
+    <string name="War">&#128163;       \nWar</string>
+    <string name="Western">&#129312;        Western</string>
+
 </resources>
