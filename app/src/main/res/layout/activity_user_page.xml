@@ -215,6 +215,7 @@
                 android:layout_height="200dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/oneStarsText"
                 tools:layout_editor_absoluteY="128dp" />

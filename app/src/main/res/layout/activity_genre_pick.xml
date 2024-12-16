@@ -45,6 +45,18 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/mainpagebtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="40dp"
+                app:layout_constraintEnd_toStartOf="@id/genreTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_arrow_back_24" />
+
             <TextView
                 android:id="@+id/genreTitle"
                 android:layout_width="wrap_content"
@@ -61,8 +73,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingTop="10dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="40dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
                 android:columnCount="3"
                 android:rowCount="7"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,164 +83,164 @@
 
                 <Button
                     android:id="@+id/popularButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Popular"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
                 <Button
                     android:id="@+id/actionButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Action"
-                    android:textSize="20sp"/>
+                    android:textSize="15sp"/>
                 <Button
                     android:id="@+id/adventureButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Adventure"
-                    android:textSize="17sp"/>
+                    android:textSize="12sp"/>
                 <Button
                     android:id="@+id/animationButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Animation"
-                    android:textSize="18sp"/>
+                    android:textSize="13sp"/>
                 <Button
                     android:id="@+id/comedyButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Comedy"
-                    android:textSize="20sp"/>
+                    android:textSize="16sp"/>
                 <Button
                     android:id="@+id/crimeButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Crime"
-                    android:textSize="23sp"/>
+                    android:textSize="19sp"/>
                 <Button
                     android:id="@+id/documentaryButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Documentary"
-                    android:textSize="13sp"/>
+                    android:textSize="10sp"/>
                 <Button
                     android:id="@+id/dramaButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Drama"
-                    android:textSize="20sp"/>
+                    android:textSize="17sp"/>
                 <Button
                     android:id="@+id/familyButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Family"
-                    android:textSize="21sp"/>
+                    android:textSize="17sp"/>
                 <Button
                     android:id="@+id/fantasyButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Fantasy"
-                    android:textSize="20sp"/>
+                    android:textSize="15sp"/>
                 <Button
                     android:id="@+id/historyButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/History"
-                    android:textSize="20sp"/>
+                    android:textSize="17sp"/>
                 <Button
                     android:id="@+id/horrorButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Horror"
-                    android:textSize="20sp"/>
+                    android:textSize="17sp"/>
                 <Button
                     android:id="@+id/musicButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Music"
-                    android:textSize="22sp"/>
+                    android:textSize="20sp"/>
                 <Button
                     android:id="@+id/mysteryButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Mystery"
-                    android:textSize="20sp"/>
+                    android:textSize="16sp"/>
                 <Button
                     android:id="@+id/romanceButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Romance"
-                    android:textSize="20sp"/>
+                    android:textSize="14sp"/>
                 <Button
                     android:id="@+id/scienceButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Science"
-                    android:textSize="20sp"/>
+                    android:textSize="17sp"/>
                 <Button
                     android:id="@+id/tvButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/TV"
                     android:textSize="20sp"/>
                 <Button
                     android:id="@+id/thrillerButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Thriller"
-                    android:textSize="20sp"/>
+                    android:textSize="18sp"/>
                 <Button
                     android:id="@+id/warButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/War"
                     android:textSize="20sp"/>
                 <Button
                     android:id="@+id/westernButton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_margin="3dp"
                     android:background="@drawable/genre_button"
                     android:text="@string/Western"
-                    android:textSize="20sp"/>
+                    android:textSize="16sp"/>
 
 
 
@@ -239,18 +251,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <ImageView
-        android:id="@+id/mainpagebtn"
-        android:layout_width="35dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="11dp"
-        android:layout_marginBottom="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/horzLine"
-        app:layout_constraintEnd_toStartOf="@+id/pfp"
-        app:layout_constraintStart_toEndOf="@+id/titleText"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/screenshot_2024_12_15_151028" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
