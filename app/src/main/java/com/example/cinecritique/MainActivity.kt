@@ -88,6 +88,13 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, ADD_TASK_REQUEST_CODE)
         }
 
+        //more button takes you to genre page
+        val morebtn: Button = findViewById(R.id.morebtn)
+        morebtn.setOnClickListener{
+            val intent = Intent(this, GenrePick::class.java)
+            startActivity(intent)
+        }
+
         cronetEngine = CronetEngine.Builder(this).build()
         val curDate = LocalDate.now().toString()
 
