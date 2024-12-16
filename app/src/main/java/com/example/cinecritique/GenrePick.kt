@@ -12,11 +12,6 @@ import androidx.core.view.WindowInsetsCompat
 
 class GenrePick : AppCompatActivity() {
 
-    companion object {
-        var userId: String? = null
-        private const val ADD_TASK_REQUEST_CODE = 1
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -44,133 +39,133 @@ class GenrePick : AppCompatActivity() {
         val popularButton : Button = findViewById(R.id.popularButton)
         popularButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Popular")
+                putExtra("GENRE_NAME", "Popular")
             }
             startActivity(intent)
         }
         val actionButton : Button = findViewById(R.id.actionButton)
         actionButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Action")
+                putExtra("GENRE_NAME", "Action")
             }
             startActivity(intent)
         }
         val adventureButton : Button = findViewById(R.id.adventureButton)
         adventureButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Adventure")
+                putExtra("GENRE_NAME", "Adventure")
             }
             startActivity(intent)
         }
         val animationButton : Button = findViewById(R.id.animationButton)
         animationButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Animation")
+                putExtra("GENRE_NAME", "Animation")
             }
             startActivity(intent)
         }
         val comedyButton : Button = findViewById(R.id.comedyButton)
         comedyButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Comedy")
+                putExtra("GENRE_NAME", "Comedy")
             }
             startActivity(intent)
         }
         val documentaryButton : Button = findViewById(R.id.documentaryButton)
         documentaryButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Documentary")
+               putExtra("GENRE_NAME", "Documentary")
             }
             startActivity(intent)
         }
         val dramaButton : Button = findViewById(R.id.dramaButton)
         dramaButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Drama")
+                putExtra("GENRE_NAME", "Drama")
             }
             startActivity(intent)
         }
         val familyButton : Button = findViewById(R.id.familyButton)
         familyButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Family")
+                putExtra("GENRE_NAME", "Family")
             }
             startActivity(intent)
         }
         val fantasyButton : Button = findViewById(R.id.fantasyButton)
         fantasyButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Fantasy")
+                putExtra("GENRE_NAME", "Fantasy")
             }
             startActivity(intent)
         }
         val historyButton : Button = findViewById(R.id.historyButton)
         historyButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "History")
+                putExtra("GENRE_NAME", "History")
             }
             startActivity(intent)
         }
         val horrorButton : Button = findViewById(R.id.horrorButton)
         horrorButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Horror")
+                putExtra("GENRE_NAME", "Horror")
             }
             startActivity(intent)
         }
         val musicButton : Button = findViewById(R.id.musicButton)
         musicButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Music")
+                putExtra("GENRE_NAME", "Music")
             }
             startActivity(intent)
         }
         val mysteryButton : Button = findViewById(R.id.mysteryButton)
         mysteryButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Mystery")
+                putExtra("GENRE_NAME", "Mystery")
             }
             startActivity(intent)
         }
         val romanceButton : Button = findViewById(R.id.romanceButton)
         romanceButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Romance")
+                putExtra("GENRE_NAME", "Romance")
             }
             startActivity(intent)
         }
         val scienceButton : Button = findViewById(R.id.scienceButton)
         scienceButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Science Fiction")
+                putExtra("GENRE_NAME", "Science Fiction")
             }
             startActivity(intent)
         }
         val tvButton : Button = findViewById(R.id.tvButton)
         tvButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "TV Movie")
+                putExtra("GENRE_NAME", "TV Movie")
             }
             startActivity(intent)
         }
         val thrillerButton : Button = findViewById(R.id.thrillerButton)
         thrillerButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Thriller")
+                putExtra("GENRE_NAME", "Thriller")
             }
             startActivity(intent)
         }
         val warButton : Button = findViewById(R.id.warButton)
         warButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "War")
+                putExtra("GENRE_NAME", "War")
             }
             startActivity(intent)
         }
         val westernButton : Button = findViewById(R.id.westernButton)
         westernButton.setOnClickListener {
             val intent = Intent(this, MovieGenre::class.java).apply{
-                intent.putExtra("GENRE_NAME", "Western")
+                putExtra("GENRE_NAME", "Western")
             }
             startActivity(intent)
         }
