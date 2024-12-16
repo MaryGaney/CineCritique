@@ -46,6 +46,10 @@ class MovieGenre : AppCompatActivity() {
             startActivity(intent)
         }
 
+        findViewById<ImageView>(R.id.mainpagebtn).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
         cronetEngine = CronetEngine.Builder(this).build()
         val executor = Executors.newSingleThreadExecutor()
         val webHelper = WebHelper(cronetEngine, executor)
