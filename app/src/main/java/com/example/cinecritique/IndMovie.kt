@@ -70,8 +70,37 @@ class IndMovie : AppCompatActivity() {
 
         // Initialize the rating bar functionality
         showRatingBar(button1, button2, button3, button4, button5)
-    }
 
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser?.let { user ->
+            val db = FirebaseFirestore.getInstance()
+            val userDocRef = db.collection("users").document(user.uid)
+
+            userDocRef.get().addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val allRatings = document.get("AllRatings") as? Map<String, Map<String, Any>>
+                    val movieKey = movieTitle // Or use a unique identifier like movie.id
+                    val movieRating = allRatings?.get(movieKey)?.get("rating") as? Long
+                    movieRating?.let {
+                        // Set the rating UI based on the user's rating
+                        showRatingOnUI(it.toInt()) // Create a function that sets the UI based on the rating
+                    }
+                }
+            }
+        }
+    }
+        private fun showRatingOnUI(rating: Int) {
+            val mButton1 = findViewById<MaterialButton>(R.id.ratingButton1)
+            val mButton2 = findViewById<MaterialButton>(R.id.ratingButton2)
+            val mButton3 = findViewById<MaterialButton>(R.id.ratingButton3)
+            val mButton4 = findViewById<MaterialButton>(R.id.ratingButton4)
+            val mButton5 = findViewById<MaterialButton>(R.id.ratingButton5)
+
+            val buttons = mutableListOf(mButton1, mButton2, mButton3, mButton4, mButton5)
+            setStarStates(buttons, rating)
+        }
+
+    @OptIn(UnstableApi::class)
     private fun rateMovie(movie: Movie, rating: Int) {
         val currentUser = FirebaseAuth.getInstance().currentUser
         currentUser?.let { user ->
@@ -97,8 +126,8 @@ class IndMovie : AppCompatActivity() {
                         "rating" to rating
                     )
 
-                    userDocRef.update("$rating", FieldValue.arrayUnion(movieData))
                     userDocRef.update("AllRatings.$movieKey", movieData)
+                    userDocRef.update("${rating}Star", FieldValue.arrayUnion(movieData))
                         .addOnSuccessListener { Log.i("FIREBASE", "Movie rated successfully") }
                         .addOnFailureListener { e -> Log.e("FIREBASE_ERROR", "Failed to rate movie: ${e.message}") }
                 }
@@ -121,7 +150,7 @@ class IndMovie : AppCompatActivity() {
 
                     allRatings?.get(movieKey)?.let { movieData ->
                         val rating = (movieData["rating"] as? Long)?.toInt() ?: 0
-                        userDocRef.update("$rating", FieldValue.arrayRemove(movieData))
+                        userDocRef.update("${rating}Star", FieldValue.arrayRemove(movieData))
                         userDocRef.update("AllRatings.$movieKey", FieldValue.delete())
                             .addOnSuccessListener { Log.i("FIREBASE", "Movie removed successfully") }
                             .addOnFailureListener { e -> Log.e("FIREBASE_ERROR", "Failed to remove movie: ${e.message}") }
@@ -130,6 +159,8 @@ class IndMovie : AppCompatActivity() {
             }
         }
     }
+
+
 
     private fun showRatingBar(
         mButton1: MaterialButton,
@@ -170,5 +201,7 @@ class IndMovie : AppCompatActivity() {
         }
         Toast.makeText(this, "Rating: $rating", Toast.LENGTH_SHORT).show()
     }
+
+
 
 }

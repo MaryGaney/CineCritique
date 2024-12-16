@@ -54,8 +54,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: MovieAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var database: CollectionReference
-
     private lateinit var cronetEngine: CronetEngine
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -66,19 +66,23 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        //sign in stuff
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-//            AuthUI.IdpConfig.PhoneBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
-//            AuthUI.IdpConfig.FacebookBuilder().build(),
-//            AuthUI.IdpConfig.TwitterBuilder().build()
-        )
-
-        val signInIntent =
-            AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers)
+        // Check if user is already signed in
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser == null) {
+            // Launch sign-in flow
+            val providers = arrayListOf(
+                AuthUI.IdpConfig.EmailBuilder().build(),
+                AuthUI.IdpConfig.GoogleBuilder().build()
+            )
+            val signInIntent = AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
                 .build()
-        signInLauncher.launch(signInIntent)
+            signInLauncher.launch(signInIntent)
+        } else {
+            // User is already signed in, initialize user data
+            initializeUser()
+        }
 
         //profile pic image takes you to user page
         val pfp: ImageView = findViewById(R.id.pfp)
@@ -127,22 +131,32 @@ class MainActivity : AppCompatActivity() {
 
             userDocRef.get().addOnSuccessListener { document ->
                 if (!document.exists()) {
-                    // Initialize user's rating lists
+                    // Initialize user's data if they don't already exist
                     val initialData = mapOf(
-                        "1Star" to listOf<Movie>(),
-                        "2Star" to listOf<Movie>(),
-                        "3Star" to listOf<Movie>(),
-                        "4Star" to listOf<Movie>(),
-                        "5Star" to listOf<Movie>(),
-                        "AllRatings" to mapOf<String, Movie>()
+                        "1Star" to emptyList<Map<String, Any>>(),
+                        "2Star" to emptyList<Map<String, Any>>(),
+                        "3Star" to emptyList<Map<String, Any>>(),
+                        "4Star" to emptyList<Map<String, Any>>(),
+                        "5Star" to emptyList<Map<String, Any>>(),
+                        "AllRatings" to emptyMap<String, Any>()
                     )
                     userDocRef.set(initialData)
                         .addOnSuccessListener { Log.d("FIREBASE", "User initialized successfully") }
-                        .addOnFailureListener { e -> Log.e("FIREBASE_ERROR", "Failed to initialize user: ${e.message}") }
+                        .addOnFailureListener { e ->
+                            Log.e(
+                                "FIREBASE_ERROR",
+                                "Failed to initialize user: ${e.message}"
+                            )
+                        }
+                } else {
+                    Log.d("FIREBASE", "User already exists.")
                 }
+            }.addOnFailureListener { e ->
+                Log.e("FIREBASE_ERROR", "Failed to check user document: ${e.message}")
             }
         }
     }
+
 
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {

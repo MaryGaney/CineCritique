@@ -46,14 +46,11 @@ class UserPage : AppCompatActivity() {
 
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
-//            AuthUI.IdpConfig.PhoneBuilder().build(),
             AuthUI.IdpConfig.GoogleBuilder().build()
-//            AuthUI.IdpConfig.FacebookBuilder().build(),
-//            AuthUI.IdpConfig.TwitterBuilder().build()
+
         )
 
         val signInIntent = AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers).build()
-        //signInLauncher.launch(signInIntent)
 
         val logoutButton: Button = findViewById(R.id.logoutButton)
         logoutButton.setOnClickListener {
@@ -65,6 +62,40 @@ class UserPage : AppCompatActivity() {
             signInLauncher.launch(signInIntent)
         }
 
+        val recyclerView = findViewById<RecyclerView>(R.id.oneStarsRecycle)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        // Initialize your adapter with an empty list first
+        val movieList = mutableListOf<Movie>()
+        val adapter = MovieAdapter(movieList) { movie ->
+            val intent = Intent(this, IndMovie::class.java).apply {
+                putExtra("MOVIE_NAME", movie.title)
+                putExtra("MOVIE_POSTER", movie.poster_path)
+                putExtra("MOVIE_DESC", movie.overview)
+            }
+            startActivity(intent)
+        }
+        recyclerView.adapter = adapter
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser?.let { user ->
+            val db = FirebaseFirestore.getInstance()
+            val userDocRef = db.collection("users").document(user.uid)
+
+            userDocRef.get().addOnSuccessListener { document ->
+                if (document.exists()) {
+                    // Assuming the movie data is under the "1Star" field
+                    val movies = document.get("1Star") as? List<Map<String, Any>> ?: emptyList()
+                    val movieList = movies.map { map ->
+                        Movie(
+                            title = map["title"] as String,
+                            overview = map["overview"] as String,
+                            poster_path = map["poster_path"] as String
+                        )
+                    }
+                    (recyclerView.adapter as MovieAdapter).updateMovies(movieList)
+                }
+            }
+        }
 
         // Display user ratings
         displayUserRatings()
