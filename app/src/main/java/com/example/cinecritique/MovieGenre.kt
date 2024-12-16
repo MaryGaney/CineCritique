@@ -84,7 +84,7 @@ class MovieGenre : AppCompatActivity() {
                     }
 
                 // Set up the RecyclerView with movie data
-                setupAdapter(recyclerView, movies)
+               setupAdapter(recyclerView, movies)
                 (recyclerView.adapter as MovieAdapterCards).updateMovies(movies)
 
 //                val adapter = MovieAdapter(emptyList()) { movie ->
