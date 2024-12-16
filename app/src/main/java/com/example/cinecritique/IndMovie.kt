@@ -100,6 +100,7 @@ class IndMovie : AppCompatActivity() {
             setStarStates(buttons, rating)
         }
 
+
     @OptIn(UnstableApi::class)
     private fun rateMovie(movie: Movie, rating: Int) {
         val currentUser = FirebaseAuth.getInstance().currentUser
@@ -109,16 +110,20 @@ class IndMovie : AppCompatActivity() {
 
             userDocRef.get().addOnSuccessListener { document ->
                 if (document.exists()) {
-                    // Remove from the previous rating list, if exists
+                    // Get all existing ratings from the document
                     val allRatings = document.get("AllRatings") as? Map<String, Map<String, Any>>
                     val movieKey = movie.title // or use a unique identifier like movie.id
 
+                    // Remove the movie from any previous rating list (if it exists)
                     allRatings?.get(movieKey)?.let { existingMovie ->
                         val prevRating = (existingMovie["rating"] as? Long)?.toInt() ?: 0
-                        userDocRef.update("$prevRating", FieldValue.arrayRemove(existingMovie))
+                        userDocRef.update("${prevRating}Star", FieldValue.arrayRemove(existingMovie)) // Remove from previous rating
                     }
 
-                    // Add to the new rating list
+                    // Remove from AllRatings
+                    userDocRef.update("AllRatings.$movieKey", FieldValue.delete())
+
+                    // Add the movie data to the new rating list (new rating)
                     val movieData = mapOf(
                         "title" to movie.title,
                         "poster_path" to movie.poster_path,
@@ -126,7 +131,10 @@ class IndMovie : AppCompatActivity() {
                         "rating" to rating
                     )
 
+                    // Update AllRatings with the new rating
                     userDocRef.update("AllRatings.$movieKey", movieData)
+
+                    // Add movie to the new star rating list
                     userDocRef.update("${rating}Star", FieldValue.arrayUnion(movieData))
                         .addOnSuccessListener { Log.i("FIREBASE", "Movie rated successfully") }
                         .addOnFailureListener { e -> Log.e("FIREBASE_ERROR", "Failed to rate movie: ${e.message}") }
