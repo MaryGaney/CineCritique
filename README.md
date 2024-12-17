@@ -26,7 +26,7 @@ CineCritique is an intuitive and engaging app designed for movie enthusiasts. Us
   - A clickable logo button that navigates back to the **Main Page**.
 - **Navigation:**
   - **To User Page:** Click on the profile picture image.
-  - **To Main Page:** Click on the logo button.
+  - **To Main Page:** Click on the back arrow button.
 
 ### 3. Individual Movie Page
 - **Features:**
@@ -39,16 +39,16 @@ CineCritique is an intuitive and engaging app designed for movie enthusiasts. Us
   - A clickable logo button that navigates back to the **Main Page**.
 - **Navigation:**
   - **To User Page:** Click on the profile picture image.
-  - **To Main Page:** Click on the logo button.
+  - **To Main Page:** Click on the back arrow button.
 
 ### 4. User Page
 - **Features:**
   - An image view displaying the user's profile picture.
   - A list of the user's past given ratings, presented using buttons.
-  - A clickable logo button that navigates back to the **Main Page**.
+  - A clickable back arrow button that navigates back to the **Main Page**.
   - A "Logout" button to log out of the app.
 - **Navigation:**
-  - **To Main Page:** Click on the logo button.
+  - **To Main Page:** Click on the back arrow button.
 
 ## Screenshots
 **Main Screen**
