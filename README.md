@@ -53,7 +53,7 @@ CineCritique is an intuitive and engaging app designed for movie enthusiasts. Us
 ## Screenshots
 **Main Screen**
 
-![image](CineMain.png)
+![image](CIneMain.png)
 
 **Genre Screen**
 
