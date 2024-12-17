@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "932711946064-41cs1kro2nf307h72912hls7i845ndqg.apps.googleusercontent.com",
+          "client_id": "932711946064-l3e8r5ftl9iajnrc5ep8pc4jpvd5vlh5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cinecritique",
+            "certificate_hash": "0754e68106eb5a9107351075ab962b4783d03ea6"
+          }
+        },
+        {
+          "client_id": "932711946064-jscj3a8k1tua5pphtc2d8flsfdjbvegb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
