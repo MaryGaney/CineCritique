@@ -26,7 +26,7 @@ CineCritique is an intuitive and engaging app designed for movie enthusiasts. Us
   - A clickable logo button that navigates back to the **Main Page**.
 - **Navigation:**
   - **To User Page:** Click on the profile picture image.
-  - **To Main Page:** Click on the logo button.
+  - **To Main Page:** Click on the back arrow button.
 
 ### 3. Individual Movie Page
 - **Features:**
@@ -39,37 +39,37 @@ CineCritique is an intuitive and engaging app designed for movie enthusiasts. Us
   - A clickable logo button that navigates back to the **Main Page**.
 - **Navigation:**
   - **To User Page:** Click on the profile picture image.
-  - **To Main Page:** Click on the logo button.
+  - **To Main Page:** Click on the back arrow button.
 
 ### 4. User Page
 - **Features:**
   - An image view displaying the user's profile picture.
   - A list of the user's past given ratings, presented using buttons.
-  - A clickable logo button that navigates back to the **Main Page**.
+  - A clickable back arrow button that navigates back to the **Main Page**.
   - A "Logout" button to log out of the app.
 - **Navigation:**
-  - **To Main Page:** Click on the logo button.
+  - **To Main Page:** Click on the back arrow button.
 
 ## Screenshots
 **Main Screen**
 
-![image](CIneMain.png)
+<img src="CIneMain.png" alt="Main page of app showing scrollable lists of movies" width=40%>
 
 **Genre Screen**
 
-![image](CineGenrePick.png)
+<img src="CineGenrePick.png" alt="Genre pick page of app showing buttons to choose genre" width=40%>
 
-![image](CineGenre.png)
+<img src="CineGenre.png" alt="Genre movies page of app showing movies in specific genre" width=40%>
 
 **Individual Movie Screen**
 
-![image](CineIndMovie.png)
+<img src="CineIndMovie.png" alt="Individual movie page of app showing information about chosen movie and option to rate said movie" width=40%>
 
-![image](CineIndMovie2.png)
+<img src="CineIndMovie2.png" alt="Individual movie page of app showing information about rated movie and option remove rating about said movie" width=40%>
 
 **User Screen**
 
-![image](CineUser.png)
+<img src="CineUser.png" alt="User page of app showing user ratings of differnt movies" width=40%>
 
 ## Contribution
 **Contributors:**
