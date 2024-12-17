@@ -53,7 +53,7 @@ CineCritique is an intuitive and engaging app designed for movie enthusiasts. Us
 ## Screenshots
 **Main Screen**
 
-<img src="CIneMain.png" alt="Main page of app showing scrollable lists of movies" width="300" height="200">
+<img src="CIneMain.png" alt="Main page of app showing scrollable lists of movies" width="400" height="800">
 
 **Genre Screen**
 
