@@ -53,23 +53,23 @@ CineCritique is an intuitive and engaging app designed for movie enthusiasts. Us
 ## Screenshots
 **Main Screen**
 
-<img src="CIneMain.png" alt="Main page of app showing scrollable lists of movies" width=50%>
+<img src="CIneMain.png" alt="Main page of app showing scrollable lists of movies" width=40%>
 
 **Genre Screen**
 
-![image](CineGenrePick.png)
+<img src="CineGenrePick.png" alt="Genre pick page of app showing buttons to choose genre" width=40%>
 
-![image](CineGenre.png)
+<img src="CineGenre.png" alt="Genre movies page of app showing movies in specific genre" width=40%>
 
 **Individual Movie Screen**
 
-![image](CineIndMovie.png)
+<img src="CineIndMovie.png" alt="Individual movie page of app showing information about chosen movie and option to rate said movie" width=40%>
 
-![image](CineIndMovie2.png)
+<img src="CineIndMovie2.png" alt="Individual movie page of app showing information about rated movie and option remove rating about said movie" width=40%>
 
 **User Screen**
 
-![image](CineUser.png)
+<img src="CineUser.png" alt="User page of app showing user ratings of differnt movies" width=40%>
 
 ## Contribution
 **Contributors:**
