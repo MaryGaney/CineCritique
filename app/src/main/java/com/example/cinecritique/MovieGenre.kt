@@ -36,7 +36,14 @@ class MovieGenre : AppCompatActivity() {
         genreTitleTextView = findViewById(R.id.genreTitle)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = MovieAdapter(emptyList()) { } // Set an empty adapter initially
+        recyclerView.adapter = MovieAdapterCards(emptyList()) { movie ->
+            val intent = Intent(this, IndMovie::class.java).apply {
+                putExtra("MOVIE_NAME", movie.title)
+                putExtra("MOVIE_POSTER", movie.poster_path)
+                putExtra("MOVIE_DESC", movie.overview)
+            }
+            startActivity(intent)
+        }
 
         //profile pic image takes you to user page
         val pfp: ImageView = findViewById(R.id.pfp)
@@ -88,18 +95,7 @@ class MovieGenre : AppCompatActivity() {
                     }
 
                 // Set up the RecyclerView with movie data
-               setupAdapter(recyclerView, movies)
                 (recyclerView.adapter as MovieAdapterCards).updateMovies(movies)
-
-//                val adapter = MovieAdapter(emptyList()) { movie ->
-//                    val intent = Intent(this, IndMovie::class.java).apply {
-//                        putExtra("MOVIE_NAME", movie.title)
-//                        putExtra("MOVIE_POSTER", movie.poster_path)
-//                        putExtra("MOVIE_DESC", movie.overview)
-//                    }
-//                    startActivity(intent)
-//                }
-//                recyclerView.adapter = adapter
             }
         }
     }

@@ -24,8 +24,8 @@ class MovieAdapterCards(
                 .load("https://image.tmdb.org/t/p/w500${movie.poster_path}")
                 .into(imageView)
 
-            titleTextView.text = movie.title
-            overviewTextView.text = movie.overview
+            titleTextView.text = movie.title ?: "No Title"
+            overviewTextView.text = movie.overview ?: "No Description"
 
             itemView.setOnClickListener { clickListener(movie) }
         }
